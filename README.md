@@ -1,4 +1,4 @@
-# CLI-cake 🍰
+# CLI-cake
 
 Easily pass CLI args into functions. Turn your functions into scripts.
 
@@ -104,6 +104,23 @@ From root, you can run the tests with
 ```bash
 python -m clicake.tests
 ```
+
+## Build / Deploy
+Install build dependencies locally:
+```
+pip install --user --upgrade twine setuptools wheel
+```
+Build source and distribution files:
+```
+python setup.py sdist bdist_wheel
+```
+upload to PyPi with Twine:
+```
+python -m twine upload dist/*
+```
+You'll be prompted to use `__token__` as the username, and you'll need to use an API token from PyPi as the password.
+
+
  ## Advanced Topics
  ### pyinstaller
  I'd recommend using `pyinstaller` if you want to generate standalone executable script builds in addition to cli-cake. Read more on there site [here]().
