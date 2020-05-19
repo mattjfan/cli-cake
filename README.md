@@ -1,4 +1,4 @@
-# CLI-cake
+# CLI-cake 🍰
 
 Easily pass CLI args into functions. Turn your functions into scripts.
 
@@ -80,7 +80,30 @@ HELLO WORLD
 ## Documentation
 
 ### Decorators
- - runnable
+ ```python
+ def runnable(callback, args, print_output):
+     pass
+ ```
 
 ### Methods
- - run
+ ```python
+ def run(callback):
+     pass
+ ```
+### Objects
+```python
+class Cake():
+    def runnable(callback, args, print_output):
+        pass
+    def run(callback):
+        pass
+````
+
+## Testing
+From root, you can run the tests with
+```bash
+python -m clicake.tests
+```
+ ## Advanced Topics
+ ### pyinstaller
+ I'd recommend using `pyinstaller` if you want to generate standalone executable script builds in addition to cli-cake. Read more on there site [here]().

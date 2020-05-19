@@ -1,5 +1,9 @@
 import sys
-def runnable(_func = None, args = sys.argv[1:]):
+def runnable(
+    _func = None,
+    args = sys.argv[1:],
+    print_output=True
+    ):
     '''
         decorator for making scripts CLI callable.
         Returns a method that looks up CLI args and invokes
@@ -25,7 +29,10 @@ def runnable(_func = None, args = sys.argv[1:]):
                 except ValueError:
                     pass
             return arg
-        def run_callback():
+        def run_callback(
+            args = args,
+            print_output=print_output
+        ):
             # args = parser.parse_args()
             curr_arg='_args'
             parsed_args={'_args': []}
@@ -56,7 +63,10 @@ def runnable(_func = None, args = sys.argv[1:]):
 
             pargs = parsed_args['_args']
             del parsed_args['_args']
-            callback(*pargs,**parsed_args)
+            output = callback(*pargs,**parsed_args)
+            if print_output:
+                print(output)
+            return output
         return run_callback
     if callable(_func): # If the first positional argument passed is a function,
         # then don't return decorator, just return decorated function
@@ -74,3 +84,34 @@ def run(callback, **kwargs):
     to runnable
     """
     return runnable(**kwargs)(callback)()
+
+class Cake:
+    """
+    Wrapper for multi-method support
+    """
+    def __init__(self):
+        self.methods = {}
+    def runnable(self, method, name=None, **kwargs):
+        """
+        Adds the specified method to parser.
+        args keyword can't be set.
+        use name to override default function name
+        acts as standard runnable otherwise (can be invoked directly)
+        """
+        if name == None:
+            name = method.__name__
+        if 'args' in kwargs:
+            raise ValueError("args: Can't set custom args for Cake runnable")
+        if name in self.methods:
+            raise ValueError(f"Function with name {name} already registered")
+        self.methods[name] = runnable(args=sys.argv[2:],**kwargs)(method)
+        return runnable(**kwargs)(method)
+    def run(self):
+        """
+        First non-name CLI arg is parsed to choose which method to run, and then that
+        method is run.
+        """
+        if sys.argv[1] in self.methods:
+            self.methods[sys.argv[1]]()
+        else:
+            raise ValueError(f"Unknown method {sys.argv[1]}")
