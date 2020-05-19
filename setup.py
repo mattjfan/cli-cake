@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="cli-cake", # Replace with your own username
-    version="0.0.1",
+    version="0.0.2",
     author="Matthew Fan",
     author_email="mfan@umd.edu",
     description="Turn your python functions into CLI-friendly scripts.",

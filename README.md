@@ -18,9 +18,9 @@ echo(sys.argv[1:], caps)
 ```
 and turns it into this
 ```python
-import clicake
+import cake
 
-@clicake.runnable
+@cake.runnable
 def echo(*args, capitalize = False):
     if capitalize:
         args = [a.upper() for a in args]
@@ -48,9 +48,9 @@ clicake is a bunch of convenience methods that solve these problems, making it s
 ## Getting Started
 clicake is really easy to use! Try creating the file 'echo.py' and add the following code:
 ```python
-import clicake
+import cake
 
-@clicake.runnable
+@cake.runnable
 def echo(*args, capitalize = False):
     if capitalize:
         args = [a.upper() for a in args]
@@ -61,7 +61,7 @@ if __name__ == '__main__':
 ```
 OR
 ```python
-import clicake
+import cake
 
 def echo(*args, capitalize = False):
     if capitalize:
@@ -69,7 +69,7 @@ def echo(*args, capitalize = False):
     print(' '.join(args))
 
 if __name__ == '__main__':
-    clicake.run(echo)
+    cake.run(echo)
 ```
 And in your terminal
 ```bash
@@ -102,7 +102,7 @@ class Cake():
 ## Testing
 From root, you can run the tests with
 ```bash
-python -m clicake.tests
+python -m cake.tests
 ```
 
 ## Build / Deploy
