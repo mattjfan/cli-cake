@@ -13,17 +13,18 @@ def sum(*args):
 
 class testRunnable(unittest.TestCase):
     def test_echo_simple_1(self):
-        out = runnable(echo)(args=['Hello', 'World!','--capitalize'],print_output=False)
+        out = runnable(echo).runCLI(args=['Hello', 'World!','--capitalize'],print_output=False)
         self.assertEqual(out, "HELLO WORLD!")
     def test_echo_simple_2(self):
-        out = runnable(args=['Hello', 'World!'], print_output=False)(echo)()
-        self.assertEqual(out, "Hello World!")
+        wrapped = runnable(args=['Hello', 'World!'], print_output=False)(echo)
+        self.assertEqual(wrapped.runCLI(), "Hello World!")
     def test_echo_kwargs(self):
-        out = runnable(args=['Hello', 'World!','--capitalize'], print_output=False)(echo)()
-        self.assertEqual(out, "HELLO WORLD!")
+        wrapped = runnable(args=['Hello', 'World!','--capitalize'], print_output=False)(echo)
+        self.assertEqual(wrapped.runCLI(), "HELLO WORLD!")
     def test_sum(self):
-        out = runnable(args=['1','7','8'], print_output=False)(sum)()
-        self.assertEqual(out, 16)
+        wrapped = runnable(args=['1','7','8'], print_output=False)(sum)
+        self.assertEqual(wrapped.runCLI(), 16)
+        self.assertEqual(wrapped(1,3,5,9), 18) # Test original function still works
 
 if __name__ == '__main__':
     unittest.main()

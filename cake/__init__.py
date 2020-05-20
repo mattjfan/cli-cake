@@ -1,4 +1,5 @@
 import sys
+from functools import wraps
 def runnable(
     _func = None,
     args = sys.argv[1:],
@@ -29,6 +30,7 @@ def runnable(
                 except ValueError:
                     pass
             return arg
+        @wraps(callback)
         def run_callback(
             args = args,
             print_output=print_output
@@ -67,7 +69,10 @@ def runnable(
             if print_output:
                 print(output)
             return output
-        return run_callback
+        callback.runCLI = run_callback
+        return callback
+        # return run_callback
+
     if callable(_func): # If the first positional argument passed is a function,
         # then don't return decorator, just return decorated function
         # allows for decorator to be called like
@@ -83,7 +88,7 @@ def run(callback, **kwargs):
     and runs it. Can pass same optional args here as you can
     to runnable
     """
-    return runnable(**kwargs)(callback)()
+    return runnable(**kwargs)(callback).runCLI()
 
 class Cake:
     """
@@ -104,14 +109,14 @@ class Cake:
             raise ValueError("args: Can't set custom args for Cake runnable")
         if name in self.methods:
             raise ValueError(f"Function with name {name} already registered")
-        self.methods[name] = runnable(args=sys.argv[2:],**kwargs)(method)
-        return runnable(**kwargs)(method)
+        self.methods[name] = runnable(**kwargs)(method)
+        return self.methods[name]
     def run(self):
         """
         First non-name CLI arg is parsed to choose which method to run, and then that
         method is run.
         """
         if sys.argv[1] in self.methods:
-            self.methods[sys.argv[1]]()
+            self.methods[sys.argv[1]].runCLI(args=sys.argv[2:])
         else:
             raise ValueError(f"Unknown method {sys.argv[1]}")
