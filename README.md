@@ -57,7 +57,7 @@ def echo(*args, capitalize = False):
     print(' '.join(args))
 
 if __name__ == '__main__':
-    echo()
+    echo.runCLI()
 ```
 OR
 ```python
