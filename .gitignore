@@ -2,3 +2,4 @@ __pycache__
 build
 cli_cake.egg-info
 dist
+__token__
